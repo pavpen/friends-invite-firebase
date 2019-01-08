@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pav's Escape Celebration</title>
+
+    <!-- update the version number as needed -->
+    <!-- script defer src="/__/firebase/5.7.2/firebase-app.js"></script -->
+    <!-- include only the Firebase features as you need -->
+    <!-- script defer src="/__/firebase/5.7.2/firebase-auth.js"></script>
+    <script defer src="/__/firebase/5.7.2/firebase-database.js"></script>
+    <script defer src="/__/firebase/5.7.2/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/5.7.2/firebase-storage.js"></script -->
+    <!-- initialize the SDK after all desired features are loaded -->
+    <!-- script defer src="/__/firebase/init.js"></script -->
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-functions.js"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message, #error-message, #info-message, #loading-message { max-width: 450px; padding: 32px 24px; border-radius: 3px; }
+      #message { background: white; margin: 50px auto 16px; }
+      #error-message { background: #ffe1e1; margin: 16px auto 16px; }
+      #info-message { background: #e1ffe1; margin: 16px auto 16px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 16px 0 16px 0;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message form span {
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        background: #039be5;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        padding: 12px;
+        margin-bottom: 0.5em;
+        border-radius: 4px;
+      }
+      #message a, #message button {
+        display: inline-block;
+        text-align: center;
+        background: #039be5;
+        text-decoration: none;
+        color: white;
+        padding: 8px;
+        margin-bottom: 0.5em;
+        border-radius: 4px;
+        border: 0;
+      }
+      #message .block { display: block; margin-top: 1em; width: 100%; }
+      #message, #message a, #message button, #error-message, #info-message {
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+      .center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+      .title-bar {
+        padding-top: 112px;
+        padding-bottom: 56px;
+        position: relative;
+      }
+      .title-bar-background-image {
+        background-size: cover;
+        background-position: center center;
+        background-image: url(images/20180527_095150.jpg);
+        transform: translate3d(0px, 0px, 0px);
+        width: 100%;
+        height: 100%;
+      }
+      .title-bar-background-image-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+      }
+      .title-bar-background-image-container {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+      }
+      .title-bar-text {
+        margin-left: 15%;
+        margin-right: 15%;
+        text-align: center;
+        color: #ffffff;
+      }
+      .guest-count {
+        width: 3em;
+      }
+      .hidden, #message form span.hidden { display: none; }
+    </style>
+  </head>
+  <body>
+    <div class="title-bar">
+      <div class="title-bar-background-image-container">
+        <div class="title-bar-background-image"></div>
+        <div class="title-bar-background-image-overlay"></div>
+      </div>
+      <div class="center">
+        <h1 class="title-bar-text">Pav's Escape Celebration</h1>
+      </div>
+    </div>
+    <div id="loading-message"><h2>Loading.</h2></div>
+    <div id="message" class="hidden">
+      <h2>Welcome</h2>
+      <p>Pav's escaping! Catch him, if you can, this weekend!</p>
+
+      <h1>Saturday, Jan. 5, 2018</h1>
+      <h3><strong>7:30&thinsp;PM&ndash;9&thinsp;PM:</strong> Topgolf (Ashburn, VA)</h3>
+      <form>
+        <span><input type="checkbox" id="evt1_im_coming_input" name="evt1_im_coming" value="evt1_im_coming"> I'm coming!</span>
+        <span id="evt1_guest_count" class="hidden">Guests: <input id="evt1_guest_count_input" class="guest-count" type="number" min="0" name="evt1_guest_count" value="0"></span>
+      </form>
+      <a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MzVzZmpyNmludHMxM291NHZwOTdnbWZkZnIgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw&amp;tmsrc=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com">Add to calendar</a>
+      <a target="_blank" href="https://calendar.google.com/calendar/embed?src=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com&ctz=America%2FNew_York">All events</a>
+
+      <h3><strong>9:30&thinsp;PM&ndash;11:30&thinsp;PM:</strong> Penthouse Party (Reston, VA)</h3>
+      <form>
+        <span><input type="checkbox" id="evt2_im_coming_input" name="evt2_im_coming" value="evt2_im_coming"> I'm coming!</span>
+        <span id="evt2_guest_count" class="hidden">Guests: <input id="evt2_guest_count_input" class="guest-count" type="number" min="0" name="evt2_guest_count" value="0"></span>
+      </form>
+      <a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=M3Q2M2l2M2VsZTA0NmN2OWloc2UyNHIybnQgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw&amp;tmsrc=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com">Add to calendar</a>
+      <a target="_blank" href="https://calendar.google.com/calendar/embed?src=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com&ctz=America%2FNew_York">All events</a>
+
+      <h1>Sunday, Jan. 6, 2018</h1>
+      <h3><strong>7&thinsp;PM&ndash;8&thinsp;PM:</strong> Escape Room: Save the Whitehouse II (Fairfax, VA)</h3>
+      <form>
+          <span><input type="checkbox" id="evt3_im_coming_input" name="evt3_im_coming" value="evt3_im_coming"> I'm coming!</span>
+          <span id="evt3_guest_count" class="hidden">Guests: <input id="evt3_guest_count_input"class="guest-count" type="number" min="0" name="evt3_guest_count" value="0"></span>
+      </form>
+      <a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=NjFiM2tlam92ODZjcTUzbHRrYWszMmdpZHUgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw&amp;tmsrc=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com">Add to calendar</a>
+      <a target="_blank" href="https://calendar.google.com/calendar/embed?src=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com&ctz=America%2FNew_York">All events</a>
+
+      <h3><strong>8:30&thinsp;PM&ndash;11:30&thinsp;PM:</strong> Penthouse Party (Reston, VA)</h3>
+      <form>
+        <span><input type="checkbox" id="evt4_im_coming_input" name="evt4_im_coming" value="evt4_im_coming"> I'm coming!</span>
+        <span id="evt4_guest_count" class="hidden">Guests: <input id="evt4_guest_count_input" class="guest-count" type="number" min="0" name="evt4_guest_count" value="0"></span>
+      </form>
+      <a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MXVmOGs0Y3V0aW82OXNsYWl1OTFsa3V0bWEgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw&amp;tmsrc=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com">Add to calendar</a>
+      <a target="_blank" href="https://calendar.google.com/calendar/embed?src=obr3jc8msmv9jm2ss3kofirpas%40group.calendar.google.com&ctz=America%2FNew_York">All events</a>
+
+      <form class="block">
+          <button class="block" id="done-button">Finish</button>
+      </form>
+    </div>
+    <div id="error-message" class="hidden"></div>
+    <div id="info-message" class="hidden"></div>
+    <p id="load">Firebase SDK Loading&hellip;</p>
+
+    <script>
+      firebase.initializeApp({
+        apiKey: 'AIzaSyDE61kjMD3XVOUhVmBI2czV5BUBXS8DGBA',
+        authDomain: 'us-central',
+        projectId: 'friends-invite-33b03',
+        databaseURL: 'https://friends-invite-33b03.firebaseio.com',
+      });
+
+      var submitResponses = firebase.functions().httpsCallable('submitResponses');
+      var loadResponses = firebase.functions().httpsCallable('loadResponses');
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        try {
+          let app = firebase.app();
+          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+
+          document.getElementById('load').innerHTML = `Firebase SDK loaded${features.length ? ' with ' + features.join(', ') : ''}.`;
+        } catch (e) {
+          console.error(e);
+          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+
+      // From <https://davidwalsh.name/query-string-javascript>:
+      function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+      };
+
+      var input_to_response_evt_id = {
+          'evt1': 'MzVzZmpyNmludHMxM291NHZwOTdnbWZkZnIgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw',
+          'evt2': 'M3Q2M2l2M2VsZTA0NmN2OWloc2UyNHIybnQgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw',
+          'evt3': 'NjFiM2tlam92ODZjcTUzbHRrYWszMmdpZHUgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw',
+          'evt4': 'MXVmOGs0Y3V0aW82OXNsYWl1OTFsa3V0bWEgb2JyM2pjOG1zbXY5am0yc3Mza29maXJwYXNAZw'
+        };
+      
+      var response_to_input_evt_id = {};
+
+      for (var input_id in input_to_response_evt_id)
+      {
+        if (input_to_response_evt_id.hasOwnProperty(input_id))
+        {
+          response_to_input_evt_id[input_to_response_evt_id[input_id]] = input_id;
+        }
+      }
+
+      function inputsToResponses()
+      {
+        var inputs = {};
+        var lms = document.getElementsByTagName('input');
+
+        for (var i = 0; i < lms.length; ++i)
+        {
+          var lm = lms[i];
+          var input_evt_id = lm.name.substr(0, lm.name.indexOf('_'));
+          var response_name = lm.name.substr(lm.name.indexOf('_') + 1);
+          var evt_info = inputs[input_evt_id];
+
+          if (!evt_info)
+          {
+            evt_info = {};
+            inputs[input_evt_id] = evt_info;
+          }
+          if (lm.type === 'checkbox')
+          {
+            evt_info[response_name] = lm.checked;
+          }
+          else
+          {
+            evt_info[response_name] = lm.value;
+          }
+        }
+
+        var responses_events = {};
+
+        for (var input_evt_id in inputs)
+        {
+          if (!inputs.hasOwnProperty(input_evt_id))
+          {
+            continue;
+          }
+
+          var evt_info = inputs[input_evt_id];
+          var party_size;
+
+          if (!evt_info['im_coming'])
+          {
+            party_size = 0;
+          }
+          else
+          {
+            party_size = 1 + parseInt(evt_info['guest_count']);
+          }
+          responses_events[input_to_response_evt_id[input_evt_id]] = { 'party_size': party_size };
+        }
+
+        return { 'events': responses_events };
+      }
+
+      function responsesToInputs(responses)
+      {
+        var inputs = {};
+        var responses_events = responses['events'];
+
+        for (var response_evt_id in responses_events)
+        {
+          if (!responses_events.hasOwnProperty(response_evt_id))
+          {
+            continue;
+          }
+
+          var party_size = responses_events[response_evt_id].party_size;
+
+          if (party_size < 1)
+          {
+            inputs[response_to_input_evt_id[response_evt_id]] = {
+              'im_coming': false
+            };
+          }
+          else
+          {
+            inputs[response_to_input_evt_id[response_evt_id]] = {
+              'im_coming': true,
+              'guest_count': party_size - 1
+            };
+          }
+        }
+
+        return inputs;
+      }
+
+      function uploadResponses()
+      {
+        var responses = inputsToResponses();
+
+        responses['u'] = getUrlParameter('u');
+
+        document.getElementById('done-button').disabled = true;
+
+        return submitResponses(responses)
+          .then((reply) => {
+            var lm = document.getElementById('error-message');
+
+            lm.innerText = reply.data.message;
+            lm.className = 'hidden';
+
+            document.getElementById('done-button').disabled = false;
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log(arguments.length);
+
+            var lm = document.getElementById('error-message');
+
+            lm.innerText = 'Failed to save responses!\n' + err;
+            lm.className = '';
+
+            document.getElementById('done-button').disabled = false;
+          });
+      }
+
+      // Handle the 'done' button:
+      document.getElementById('done-button').addEventListener(
+        'click',
+        function()
+        {
+          uploadResponses().then(function() {
+            var lm = document.getElementById('info-message');
+
+            lm.innerText = 'Done!  You can close this tab.';
+            lm.classList.remove('hidden');
+            window.history.back();
+          });
+        });
+
+      function eventCheckBoxStateChanged(evt_id, new_state)
+      {
+        var lm = document.getElementById(evt_id + '_guest_count');
+
+        if (new_state)
+        {
+          lm.classList.remove('hidden');
+        }
+        else
+        {
+          lm.classList.add('hidden');
+        }
+      }
+
+      // Turn the form input containers into buttons, and send data when
+      // values change.
+      var lms = document.getElementsByTagName('input');
+
+      for (var i = 0; i < lms.length; ++i)
+      {
+        var parentNode = lms[i].parentNode;
+
+        (function() {
+          var inputLm = lms[i];
+
+          inputLm.addEventListener('change',
+            function() {
+              if (inputLm.type === 'checkbox')
+              {
+                eventCheckBoxStateChanged(
+                  inputLm.name.substr(0, inputLm.name.indexOf('_')),
+                  inputLm.checked);
+              }
+              uploadResponses();
+            });
+
+          if (parentNode.tagName === 'SPAN')
+          {
+            if (inputLm.type === 'checkbox')
+            {
+              parentNode.addEventListener('click', function(event) {
+                if (event.target.tagName === 'INPUT')
+                {
+                  return;
+                }
+                inputLm.checked = !inputLm.checked;
+                eventCheckBoxStateChanged(
+                  inputLm.name.substr(0, inputLm.name.indexOf('_')),
+                  inputLm.checked);
+                uploadResponses();
+              });
+            }
+            else
+            {
+              parentNode.addEventListener('click', function(event) {
+                if (event.target.tagName === 'INPUT')
+                {
+                  return;
+                }
+                inputLm.value = parseInt(inputLm.value) + 1;
+                uploadResponses();
+              });
+            }
+          }
+        })();
+      }
+
+      // Load previous responses:
+      loadResponses({ 'u': getUrlParameter('u') })
+        .then(function(reply) {
+          var inputs = responsesToInputs(reply.data);
+
+          for (var evt_id in inputs)
+          {
+            if (!inputs.hasOwnProperty(evt_id))
+            {
+              continue;
+            }
+
+            var evt_info = inputs[evt_id];
+
+            document.getElementById(evt_id + '_im_coming_input').checked = evt_info.im_coming;
+            eventCheckBoxStateChanged(evt_id, evt_info.im_coming);
+
+            if (evt_info.im_coming)
+            {
+              document.getElementById(evt_id + '_guest_count_input').value = evt_info.guest_count;
+            }
+          }
+          document.getElementById('message').className = '';
+          document.getElementById('loading-message').remove();
+        })
+        .catch(function (err) {
+          console.log("Couldn't load previous responses.");
+          console.log(err);
+
+          document.getElementById('message').className = '';
+          document.getElementById('loading-message').remove();
+        });
+    </script>
+  </body>
+</html>

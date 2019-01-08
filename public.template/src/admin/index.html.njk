@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Friends Invite Dashboard</title>
+
+    <!--
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    -->
+
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../bower_components/polymerfire/firebase-app-script.html">
+    <link rel="import" href="../bower_components/polymerfire/firebase-auth-script.html">
+    <link rel="import" href="../bower_components/polymerfire/firebase-database-script.html">
+    <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+    <link type="text/css" rel="stylesheet" href="../stylesheets/default.css" />
+  </head>
+  <body>
+    <div class="title-bar title-bar-background-image" style="background-image: url(../images/DSC_0073.JPG);">
+      <div class="title-bar-background-image-overlay">
+        <h1 class="title-bar-text center">Dashboard</h1>
+      </div>
+    </div>
+    <div id="error-message" class="message error-message" style="display: none;"></div>
+    <div class="message main-message light-buttons">
+      <h2>Invitations</h2>
+      <div>User: [[user]]</div>
+    </div>
+
+    <script type="text/javascript">
+      function showError(err)
+      {
+        console.error(err);
+
+        var lm = document.getElementById('error-message');
+
+        lm.innerHTML += '<p>Login error ' + errorCode + ': ' + errorMessage + '</p>';
+        lm.style.display = 'block';
+      }
+    </script>
+
+    <firebase-app 
+      api-key="{{ project.api_key }}"
+      auth-domain="{{ project.auth_domain }}"
+      database-url="{{ project.database_url }}"
+      project-id="{{ project.project_id }}"
+      storage-bucket="{{ project.storage_bucket }}"
+      messaging-sender-id="{{ project.messaging_sender_id }}"
+      >
+    </firebase-app>
+    <firebase-auth id="auth" user="{{'{{'}}user{{'}}'}}}" provider="google" on-error="showError">
+    </firebase-auth>
+  </body>
+</html>

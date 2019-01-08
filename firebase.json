@@ -1,0 +1,22 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix functions run lint",
+      "npm --prefix functions run build",
+      "npm --prefix public.template run build"
+    ],
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "public.template/build/public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

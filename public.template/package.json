@@ -1,0 +1,17 @@
+{
+  "name": "public.template",
+  "version": "0.0.1",
+  "description": "Public Web Application Site with Compile-time Template Expansion",
+  "main": "index.js",
+  "module": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && echo 'Environment:' && set && exit 1",
+    "build": "node scripts/build.js"
+  },
+  "author": "Pavel M. Penev",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "nunjucks": "^3.1.6",
+    "nunjucks-cli": "^0.5.1"
+  }
+}

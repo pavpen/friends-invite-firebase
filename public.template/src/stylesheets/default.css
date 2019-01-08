@@ -1,0 +1,146 @@
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.block-overlay {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+
+body {
+    background: #eceff1;
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.message {
+    max-width: 450px;
+    padding: 32px 24px;
+    border-radius: 3px;
+    margin: 16px auto 16px;
+}
+
+.main-message {
+    background: white;
+}
+
+.info-message {
+    background: #e1ffe1;
+}
+
+.error-message {
+    background: #ffe1e1;
+}
+
+.message h2 {
+    color: #ffa100;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 0 8px;
+}
+
+.message h1 {
+    font-size: 22px;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    margin: 16px 0 16px 0;
+}
+
+.message p {
+    line-height: 140%;
+    margin: 16px 0 24px;
+    font-size: 14px;
+}
+
+.message a, .message button, .message .button, .message .light-button {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 0.5em;
+    border-radius: 4px;
+}
+
+.message a, .message button, .message .button {
+    background: #039be5;
+    color: white;
+}
+
+.message a.light-button, .message button.light-button, .message .light-button,
+.light-buttons a, .light-buttons button, .light-buttons .button {
+    background: #eceff1;
+    color: #039be5;
+}
+
+.message .button, .message .light-button {
+    vertical-align: top;
+    text-transform: uppercase;
+    padding: 12px;
+}
+
+.message a, .message button {
+    padding: 8px;
+    border: 0;
+}
+
+.message .block {
+    display: block;
+    margin-top: 1em;
+    width: 100%;
+}
+
+.message, .message a, .message button {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.footer {
+    color: rgba(0,0,0,0.4);
+    text-align: center;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    body, .message { margin-top: 0; background: white; box-shadow: none; }
+    body { border-top: 16px solid #ffa100; }
+}
+
+.title-bar {
+    padding-top: 112px;
+    padding-bottom: 56px;
+    position: relative;
+}
+
+.title-bar-background-image {
+    background-size: cover;
+    background-position: center center;
+    transform: translate3d(0px, 0px, 0px);
+    width: 100%;
+    height: 100%;
+}
+
+.title-bar-background-image-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+.title-bar-text {
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: center;
+    color: #ffffff;
+}

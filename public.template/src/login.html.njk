@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Friends Invite Login</title>
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "{{ project.api_key }}",
+        authDomain: "{{ project.auth_domain }}",
+        databaseURL: "{{ project.database_url }}",
+        projectId: "{{ project.project_id }}",
+        storageBucket: "{{ project.storage_bucket }}",
+        messagingSenderId: "{{ project.messaging_sender_id }}"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.1/firebaseui.css" />
+    <link type="text/css" rel="stylesheet" href="stylesheets/default.css" />
+
+    <script type="text/javascript">
+      // FirebaseUI config.
+      var uiConfig = {
+        signInSuccessUrl: 'admin/index.html',
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+          // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+          // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+          // firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          // firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+          // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+        ],
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
+        tosUrl: 'TODO: Add terms of service.',
+        // Privacy policy url/callback.
+        // privacyPolicyUrl: function() {
+        //     window.location.assign('<your-privacy-policy-url>');
+        // }
+        privacyPolicyUrl: 'TODO: Add a privacy policy.'
+      };
+
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+      // The start method will wait until the DOM is loaded.
+      ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+  </head>
+  <body>
+    <div class="title-bar title-bar-background-image" style="background-image: url(images/DSC_0888.JPG);">
+      <div class="title-bar-background-image-overlay">
+        <h1 class="title-bar-text center"></h1>
+      </div>
+    </div>
+    <div class="message main-message light-buttons">
+      <h2>Login to Friends Invite</h2>
+      <div id="firebaseui-auth-container"></div>        
+    </div>
+  </body>
+</html>

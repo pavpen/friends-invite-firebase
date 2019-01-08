@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pav's Escape Celebration</title>
+
+    <!-- update the version number as needed -->
+    <!-- script defer src="/__/firebase/5.7.2/firebase-app.js"></script -->
+    <!-- include only the Firebase features as you need -->
+    <!-- script defer src="/__/firebase/5.7.2/firebase-auth.js"></script>
+    <script defer src="/__/firebase/5.7.2/firebase-database.js"></script>
+    <script defer src="/__/firebase/5.7.2/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/5.7.2/firebase-storage.js"></script -->
+    <!-- initialize the SDK after all desired features are loaded -->
+    <!-- script defer src="/__/firebase/init.js"></script -->
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-functions.js"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message, #error-message, #loading-message { max-width: 450px; padding: 32px 24px; border-radius: 3px; }
+      #message { background: white; margin: 100px auto 16px; }
+      #error-message { background: #ffe1e1; margin: 16px auto 16px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 16px 0 16px 0;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message form span {
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        background: #039be5;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        padding: 12px;
+        margin-bottom: 0.5em;
+        border-radius: 4px;
+      }
+      #message a, #message button {
+        display: inline-block;
+        text-align: center;
+        background: #039be5;
+        text-decoration: none;
+        color: white;
+        padding: 8px;
+        margin-bottom: 0.5em;
+        border-radius: 4px;
+        border: 0;
+      }
+      #message .block { display: block; margin-top: 1em; width: 100%; }
+      #message, #message a, #message button, #error-message { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+      .center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+      .title-bar {
+        padding-top: 112px;
+        padding-bottom: 56px;
+        position: relative;
+      }
+      .title-bar-background-image {
+        background-size: cover;
+        background-position: center center;
+        background-image: url(images/20180527_095150.jpg);
+        transform: translate3d(0px, 0px, 0px);
+        width: 100%;
+        height: 100%;
+      }
+      .title-bar-background-image-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+      }
+      .title-bar-background-image-container {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+      }
+      .title-bar-text {
+        margin-left: 15%;
+        margin-right: 15%;
+        text-align: center;
+        color: #ffffff;
+      }
+      .guest-count {
+        width: 3em;
+      }
+      .hidden, #message form span.hidden { display: none; }
+    </style>
+  </head>
+  <body>
+    <div class="title-bar">
+      <div class="title-bar-background-image-container">
+        <div class="title-bar-background-image"></div>
+        <div class="title-bar-background-image-overlay"></div>
+      </div>
+      <div class="center">
+        <h1 class="title-bar-text">Pav's Escape Celebration</h1>
+      </div>
+    </div>
+    <div id="loading-message"><h2>Loading.</h2></div>
+    <div id="message">
+      <h2>Welcome</h2>
+      <p>Pav's escaping! Catch him, if you can, this weekend!</p>
+
+      <form class="block">
+          <button class="block" id="done-button">Finish</button>
+      </form>
+    </div>
+    <div id="error-message" class="hidden"></div>
+    <p id="load">Firebase SDK Loading&hellip;</p>
+
+    <script>
+        firebase.initializeApp({
+            apiKey: 'AIzaSyDE61kjMD3XVOUhVmBI2czV5BUBXS8DGBA',
+            authDomain: 'us-central',
+            projectId: 'friends-invite-33b03',
+            databaseURL: 'https://friends-invite-33b03.firebaseio.com',
+        });
+
+        var submitResponses = firebase.functions().httpsCallable('submitResponses');
+        var loadResponses = firebase.functions().httpsCallable('loadResponses');
+
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+            // // The Firebase SDK is initialized and available here!
+            //
+            // firebase.auth().onAuthStateChanged(user => { });
+            // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+            // firebase.messaging().requestPermission().then(() => { });
+            // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+            //
+            // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+            try {
+                let app = firebase.app();
+                let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+
+                document.getElementById('load').innerHTML = `Firebase SDK loaded${features.length ? ' with ' + features.join(', ') : ''}.`;
+            } catch (e) {
+                console.error(e);
+                document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+            }
+        });
+
+        var auth = firebase.auth();
+
+        window.addEventListener('load', function() {
+            initEvents();
+        });
+
+        function loginEvents()
+        {
+            $('.form-google-signin').on('click', function() {
+                authFirebaseInit();
+                return false;
+            });
+        }
+
+        function authFirebaseInit()
+        {
+            // Attempt to authenticate via Google
+            var provider = new firebase.auth.GoogleAuthProvider();
+            // We'll use a popup, but you can also auth in a new tab
+            auth.signInWithPopup(provider).then(function(result) {
+                // Redirect to admin
+                window.location = '/admin';
+            }).catch(function(error) {
+                // TODO: Error handling code here
+                console.log(error);
+            });
+        }
+
+        // From <https://davidwalsh.name/query-string-javascript>:
+        function getUrlParameter(name) {
+          name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+          var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+          var results = regex.exec(location.search);
+
+          return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+    </script>
+  </body>
+</html>

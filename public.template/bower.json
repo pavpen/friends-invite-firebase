@@ -1,0 +1,17 @@
+{
+  "name": "public.template",
+  "description": "Public Web Application Site with Compile-time Template Expansion",
+  "main": "index.js",
+  "authors": [
+    "Pavel M. Penev"
+  ],
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

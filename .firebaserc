@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "friends-invite-33b03",
+    "staging": "friends-invite-staging"
+  }
+}
