@@ -11,7 +11,7 @@
   "author": "Pavel M. Penev",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "nunjucks": "^3.2.3",
+    "nunjucks": "^3.2.4",
     "nunjucks-cli": "^1.0.0"
   }
 }
